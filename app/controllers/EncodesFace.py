@@ -1,22 +1,19 @@
 import face_recognition as fr
 
-url_image = "C:\\Users\\WINDOWS\\Downloads\\recognition\\face\\"
+url_image = ".\\face\\"
 
-imagem_banco = fr.load_image_file(url_image + "teste.jpeg")
-imagem_banco_encoding = fr.face_encodings(imagem_banco)[0]
 
-imagem_banco_2 = fr.load_image_file(url_image + "teste1.jpeg")
-imagem_banco_2_encoding = fr.face_encodings(imagem_banco_2)[0]
-
-imagem_banco_3 = fr.load_image_file(url_image + "teste2.jpeg")
-imagem_banco_3_encoding = fr.face_encodings(imagem_banco_3)[0]
+def adiciona_rostos_conhecidos(arquivo):
+    imagem_banco = fr.load_image_file(url_image + arquivo)
+    imagem_banco_encoding = fr.face_encodings(imagem_banco)[0]
+    return imagem_banco_encoding
 
 
 
 rosto_conhecidos = [
-    imagem_banco_encoding,
-    imagem_banco_2_encoding,
-    imagem_banco_3_encoding
+    adiciona_rostos_conhecidos("teste.jpeg"),
+    adiciona_rostos_conhecidos("teste1.jpeg"),
+    adiciona_rostos_conhecidos("teste2.jpeg")
 ]
 
 nomes_rostos_conhecidos = [
@@ -26,7 +23,7 @@ nomes_rostos_conhecidos = [
 ]
 
 
-imagem_comparativa = fr.load_image_file(url_image + "Daniele.jpeg")
+imagem_comparativa = fr.load_image_file(url_image + "Daniel.jpeg")
 local_rosto = fr.face_locations(imagem_comparativa)
 rosto_codificado = fr.face_encodings(imagem_comparativa,local_rosto)
 

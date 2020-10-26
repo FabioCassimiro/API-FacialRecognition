@@ -1,10 +1,9 @@
 from app import app
 from flask import request
-from app.controllers.EncodesFace import compara
+from app.controllers.EncodesFace import facial_recognition
 import os
-from werkzeug.utils import secure_filename
 
-app.config['imgdir'] = "./face"
+app.config['imgdir'] = "./faces_request"
 
 
 @app.route("/")
@@ -12,9 +11,8 @@ app.config['imgdir'] = "./face"
 def recognition():
     if request.files:
         file =request.files['image']
-        filename = secure_filename(file.filename) # save file 
-        filepath = os.path.join(app.config['imgdir'], filename);
+        filepath = os.path.join(app.config['imgdir'], file.filename);
         file.save(filepath)
     
-    return compara(filename)
-    
+    return facial_recognition(request.form['username'],file.filename)
+

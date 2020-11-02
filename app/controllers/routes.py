@@ -1,18 +1,19 @@
 from app import app
 from flask import request
-from app.controllers.EncodesFace import facial_recognition
+
+from app.models import login
 import os
 
-app.config['imgdir'] = "./faces_request"
-
-
-@app.route("/")
-@app.route("/recognition",methods=['POST'])
-def recognition():
+@app.route('/teste',methods=['POST'])
+def teste():
+    print(request.form)
     if request.files:
-        file =request.files['image']
-        filepath = os.path.join(app.config['imgdir'], file.filename);
-        file.save(filepath)
+        print('deu')
+    return {'status':401}
     
-    return facial_recognition(request.form['username'],file.filename)
 
+
+@app.route("/facialrecognition", methods=['POST'])
+def facial_recognition_login():
+    result = login.valid_user(request.form, request.files)
+    return result,200, {'Content-Type': 'application/json'}

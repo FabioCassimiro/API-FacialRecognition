@@ -1,2 +1,6 @@
-DEBUG = True
-# EXPLAIN_TEMPLATE_LOADING = True
+DEBUG = False
+DATABASE = 'recognition_system'
+USERDB = 'root'
+PASSWORDDB = ''
+HOST = 'localhost'
+FLASK_ENV="production"

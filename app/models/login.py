@@ -1,29 +1,36 @@
+from app import app
 from app.exception.loginException import UserNotFound
 from app.models.passwordEncoder import encoder
 from app.models.EncodesFace import facial_recognition
 import mysql.connector
 
-cnx = mysql.connector.connect(user="root", database="recognition_system")
+cnx = mysql.connector.connect(
+    host = app.config['HOST'],
+    user = app.config['USERDB'],
+    database = app.config['DATABASE'],
+    password = app.config['PASSWORDDB']
+)
+
 consult = cnx.cursor()
 
-
+# Valida as credenciais do usuario
 def valid_user(credential):
-    credentials = search_username(credential.get('username'))
+    credentials = search_credentials(credential.get('username'))
     
     if credentials:
         if facial_recognition(credentials[0],credential['image']):
             if credentials[1] == encoder(credential.get('password')):
-                return {"authenticated": True}
+                return True
             else:
-                return {"authenticated": False}
+                return False
         else:
-            return {"authenticated": False}    
+            return False  
     else:
         raise UserNotFound('Usuario nao cadastrado')
-        return {"authenticated": False}
+        return False
 
-
-def search_username(user):
+# Busca credenciais do usuario para as demais validações
+def search_credentials(user):
     query = """SELECT username,password FROM USERS 
                 WHERE USERNAME = %s"""
 

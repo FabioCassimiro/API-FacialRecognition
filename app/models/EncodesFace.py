@@ -1,5 +1,6 @@
 import face_recognition as fr
 from app.models.searchFaces import recognition_face
+from app.models.images import image
 from app.exception.loginException import FaceNotMatch
 import os
 
@@ -13,7 +14,11 @@ username = []
 
 def facial_recognition(user, dataImage):
     try:
-        filename = save_image(dataImage.get('image'))
+        filename = 'imageRequest.jpeg'
+        image(
+            dataImage,
+            './faces_request/imageRequest.jpeg'
+        )
         recognition_face(user)
         user_face.append(encode_image('imagemBanco.jpeg'))
         username.append(user)
@@ -38,13 +43,11 @@ def encode_image(file):
 def compare_faces(name):
 
     imagem_comparativa = fr.load_image_file(url_image + name)
-    face_location = fr.face_locations(imagem_comparativa)
-    face_encoding = fr.face_encodings(imagem_comparativa, face_location)
+    location = fr.face_locations(imagem_comparativa)
+    encoding = fr.face_encodings(imagem_comparativa, location)
 
-    for (top, right, bottom, left), face_encoding in zip(face_location, face_encoding):
-
-        comparation = fr.compare_faces(user_face, face_encoding, 0.5)
-
+    for (direta,esquerda,cima,baixo), face_encoding in zip(location, encoding):
+        comparation = fr.compare_faces(user_face, face_encoding, 0.6)
         if True in comparation:
             best_comparation = comparation.index(True)
             name = username[best_comparation]

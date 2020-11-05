@@ -7,11 +7,11 @@ cnx = mysql.connector.connect(user="root", database="recognition_system")
 consult = cnx.cursor()
 
 
-def valid_user(credential, dataImage):
+def valid_user(credential):
     credentials = search_username(credential.get('username'))
     
     if credentials:
-        if facial_recognition(credentials[0],dataImage):
+        if facial_recognition(credentials[0],credential['image']):
             if credentials[1] == encoder(credential.get('password')):
                 return {"authenticated": True}
             else:
@@ -24,7 +24,7 @@ def valid_user(credential, dataImage):
 
 
 def search_username(user):
-    query = """SELECT username,password,email FROM USERS 
+    query = """SELECT username,password FROM USERS 
                 WHERE USERNAME = %s"""
 
     try:
@@ -36,7 +36,6 @@ def search_username(user):
         )
 
         result = consult.fetchone()
-        print(result)
         return result
     except (Exception) as ex:
         print(ex)

@@ -19,7 +19,7 @@ def recognition_face(username):
 
 # busca os bytes da imagem salva no banco de dados do respectivo usuario.
 def search_image(username):
-    query = "SELECT IMAGE FROM IMAGES WHERE USERNAME = %s"
+    query = "SELECT IMAGE_USER FROM IMAGES WHERE USERNAME = %s"
 
     try:
         consult.execute(

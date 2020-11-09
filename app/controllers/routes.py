@@ -8,6 +8,6 @@ from flask import request
 @app.route("/facialrecognition", methods=['POST'])
 def facial_recognition_login():
     if login.valid_user(request.form):
-        return {'authenticated':True},200, {'Content-Type': 'application/json'}
+        return {'authenticated':True},{'Content-Type': 'application/json'}
     else:
-        return {'authenticated':False},401, {'Content-Type': 'application/json'}
+        return {'authenticated':False},{'Content-Type': 'application/json'}

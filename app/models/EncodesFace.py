@@ -4,12 +4,10 @@ from app.exception.loginException import FaceNotMatch
 import face_recognition as fr
 import os
 
-
 url_data_image = "./face/"
 url_image = "./faces_request/"
 
 user_face = []
-username = []
 
 # Valida o reconecimento facial
 def facial_recognition(user, dataImage):
@@ -21,7 +19,6 @@ def facial_recognition(user, dataImage):
         )
         recognition_face(user)
         user_face.append(encode_image('imagemBanco.jpeg'))
-        username.append(user)
         return compare_faces(filename)
     except Exception as identifier:
         print(identifier)
@@ -41,10 +38,5 @@ def compare_faces(name):
 
     for (direta,esquerda,cima,baixo), face_encoding in zip(location, encoding):
         comparation = fr.compare_faces(user_face, face_encoding, 0.6)
-        if True in comparation:
-            best_comparation = comparation.index(True)
-            name = username[best_comparation]
-            return True
-        else:
-            raise FaceNotMatch('Usuario nao reconhecido')
-            return False
+        return comparation
+
